@@ -135,6 +135,10 @@ Dataloaderが個別のリクエストを溜めておきその後一括で取得�
 
 これによってResolverがデータを取得するときには個別でデータを取得しているような感覚ですが、実はまとめてリクエストが飛ばされているためN+1問題が解決されます
 
+ただし、これを実現するためにはBackend Serverで複数のデータを一括で取得できるAPIを実装する必要があります
+
+さらに、各データにはIDが振られている必要もあります
+
 ## Dataloader実装
 
 サンプルではCustomGraphQLContextBuilder内でDataLoaderRegistryにDataloaderの登録をしています
