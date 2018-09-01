@@ -1,0 +1,24 @@
+# Try to write your query here
+schema {
+    query: Query
+}
+
+type Query {
+    bloginfo(ids: [Long]): BlogListResponse
+}
+
+type BlogListResponse {
+    blogs: [Blog]
+}
+
+type Blog {
+    id: Long
+    name: String
+    entries: [Entry]
+}
+
+type Entry {
+    id: Long
+    title: String
+    text: String
+}
