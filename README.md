@@ -45,9 +45,9 @@ https://github.com/marshi/graphql-sample/blob/v1.0/src/main/kotlin/marshi/graphq
 
 Bean管理する必要があるので、@Componentをつけておきます
 
-クエリを投げるとこのクラスのメソッドが呼び出されます
+クエリをリクエストするとこのクラスのメソッドが呼び出されます
 
-スキーマ定義では👇のように定義されています
+ところでスキーマ定義では👇のように定義されています
 ```
 schema {
     query: Query
@@ -57,7 +57,7 @@ type Query {
     bloginfo(ids: [Long]): BlogListResponse
 }
 ```
-この定義だと、queryの1レベル下には `blogInfo(ids: [Long]) ~~` が定義されているため`bloginfo(ids: List<Long>)`メソッドが対象のメソッドとして検索されて実行されます
+この定義だとqueryの1レベル下には `blogInfo(ids: [Long]) ~~` が定義されているため、まず`bloginfo(ids: List<Long>)`メソッドが対象のメソッドとして検索されて実行されます
 https://github.com/graphql-java/graphql-java-tools#field-mapping-priority
 
 ```
@@ -83,5 +83,33 @@ https://github.com/graphql-java/graphql-java-tools#field-mapping-priority
 
 dataloaderについては後述します
 
+ここで注目したいのが、スキーマで定義されている型と対応したクラスの持つフィールドの違いです
 
+スキーマでは下記のように定義されています
+```
+type Blog {
+    id: Long
+    name: String
+    entries: [Entry]
+}
+```
+しかしクラスでは下記の様に定義されています
+```
+data class Blog(
+    var id: Long,
+    var name: String
+)
+```
+
+entriesがクラスには定義されていません
+
+この場合、スキーマのentriesを解決するために`GraphQLResolver<Blog>`を継承したResolverからentriesメソッドが探されます(これでも見つからないと起動エラーになります)
+
+https://github.com/marshi/graphql-sample/blob/master/src/main/kotlin/marshi/graphqlsample/resolver/field/BlogResolver.kt
+
+このときentriesメソッドでは、Entryから見た一つ上のレベルであるBlog型のデータを引数として受け取ることができます
+
+つまり、このケースでいうとBlogのidに依存するEntryを取得する場合、BlogとEntryはスキーマの親子関係である必要があります
+
+そんなこんなで順々に各フィールドがResolverによって解決されていき、最終的なレスポンスができあがります
 
