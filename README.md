@@ -135,7 +135,20 @@ Dataloaderが個別のリクエストを溜めておきその後一括で取得�
 
 これによってResolverがデータを取得するときには個別でデータを取得しているような感覚ですが、実はまとめてリクエストが飛ばされているためN+1問題が解決されます
 
+## Dataloader実装
 
+サンプルではCustomGraphQLContextBuilder内でDataLoaderRegistryにDataloaderの登録をしています
+https://github.com/marshi/graphql-sample/blob/24bcea5644a800308e6ad7a3459aff1cb26ae9aa/src/main/kotlin/marshi/graphqlsample/CustomGraphQLContextBuilder.kt#L36-L39
+
+DataLoadにはBatchLoaderを渡します
+
+BatchLoaderが一括取得の処理を担います
+
+このBatchLoaderによって得られたデータ一覧の保持やキーに対応するデータの受け渡しをDataloaderが担います
+
+DataLoaderRegistryに登録されたDataloaderは各ResolverのDataFetchingEnvironmentから受け取ることができます
+
+ResolverではDataloaderを経由してデータを取得することで図のような一括処理ができるようになります
 
 
 
