@@ -103,7 +103,7 @@ data class Blog(
 
 entriesがクラスには定義されていません
 
-この場合、スキーマのentriesを解決するために`GraphQLResolver<Blog>`を継承したResolverからentriesメソッドが探されます(これでも見つからないと起動エラーになります)
+この場合、スキーマのentriesを解決するために`GraphQLResolver<Blog>`を継承したResolverからentriesメソッドが探されます(これで見つからないと起動エラーになります)
 
 https://github.com/marshi/graphql-sample/blob/master/src/main/kotlin/marshi/graphqlsample/resolver/field/BlogResolver.kt
 
@@ -112,4 +112,30 @@ https://github.com/marshi/graphql-sample/blob/master/src/main/kotlin/marshi/grap
 つまり、このケースでいうとBlogのidに依存するEntryを取得する場合、BlogとEntryはスキーマの親子関係である必要があります
 
 そんなこんなで順々に各フィールドがResolverによって解決されていき、最終的なレスポンスができあがります
+
+## Dataloader
+
+https://github.com/graphql-java/java-dataloader
+
+GraphQLを使うと発生しやすい問題としてN+1問題が挙げられます
+
+複数ブログを一括で取得する -> 各ブログについて記事情報を取得する、
+
+というシナリオだと最初の複数のブログ取得するで1回、それぞれの記事を取得するでN回のリクエストが発生するので、通信が多くなるという問題です
+
+GraphQLではフィールドについてデータの解決が行われるため、この問題が起こりやすいのです
+
+Dataloaderはこの問題を解決します(あとキャッシュ機能もあるみたいです)
+
+図で雑に書くとこんな感じです
+
+
+
+
+
+
+
+
+
+
 
