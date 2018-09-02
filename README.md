@@ -1,6 +1,6 @@
 # graphql-sample
 
-graphql-java-springのサンプル実装です。
+graphql-spring-bootのサンプル実装です。
 
 # 動かし方
 
