@@ -35,9 +35,9 @@ https://github.com/graphql-java/graphql-spring-boot#graphql-java-tools
 ## GraphQLQueryResolver
 https://github.com/marshi/graphql-sample/blob/v1.0/src/main/kotlin/marshi/graphqlsample/resolver/QueryResolver.kt
 
-GraphQLにはquery, mutation, subscriptionという操作が存在しますがそれぞれに対応したResolverが用意されています
+GraphQLには`query`, `mutation`, `subscription`という操作が存在しますがそれぞれに対応したResolverが用意されています
 
-GraphQLQueryResolver, GraphQLMutationResolver, GraphQLSubscriptionResolverです
+`GraphQLQueryResolver`, `GraphQLMutationResolver`, `GraphQLSubscriptionResolver`です
 
 今回はqueryしか使っていないのでGraphQLQueryResolverを継承したResolverを作成します
 
